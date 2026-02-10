@@ -21,15 +21,26 @@ export default async function middleware(req: NextRequest) {
     const isProtected = PROTECTED_SEGMENTS.some(segment => pathWithoutLocale.startsWith(segment));
 
     if (isProtected) {
-        // AUTH TRUTH: Only refreshToken is a valid routing hint.
-        // We do NOT trust 'isLoggedIn' client cookie as proof.
-        const hasRefreshCookie = req.cookies.has('refreshToken');
+        // ROUTING HINT: Use the 'isLoggedIn' client-side cookie as a navigation gate.
+        //
+        // WHY NOT refreshToken?
+        // The refreshToken cookie has path='/api/v1/auth/refresh' and is set on the
+        // backend domain (Railway). It is NEVER sent to the Vercel edge middleware
+        // because: (a) the path doesn't match, and (b) it's a different domain.
+        //
+        // The isLoggedIn cookie is:
+        // - Set client-side via document.cookie on path=/ (same Vercel domain)
+        // - A non-sensitive boolean hint — it does NOT grant API access
+        // - Cleared on logout and on RBAC failures
+        //
+        // SECURITY: Real auth is enforced by the backend on every API call via
+        // JWT validation. This cookie only prevents premature redirects.
+        const hasSessionHint = req.cookies.has('isLoggedIn');
 
-        if (!hasRefreshCookie) {
+        if (!hasSessionHint) {
             // Redirect to login with proper locale
             const locale = pathname.match(/^\/(en|ar)/)?.[1] || routing.defaultLocale;
             const loginUrl = new URL(`/${locale}/login`, req.url);
-            // Optional: Add ?redirectUrl=...
             loginUrl.searchParams.set('redirect', pathWithoutLocale);
             return NextResponse.redirect(loginUrl);
         }
