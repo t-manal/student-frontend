@@ -40,7 +40,7 @@ export function Footer() {
                     </div>
                 </div>
                 <div className="mt-12 border-t border-white/5 pt-8 text-center text-sm text-slate-400">
-                    <p>© {year} {process.env.NEXT_PUBLIC_APP_NAME || 'Manal LMS'}. {t('rights')}</p>
+                    <p>(c) {year} {process.env.NEXT_PUBLIC_APP_NAME || 'Manal LMS'}. {t('rights')}</p>
                 </div>
             </div>
         </footer>
