@@ -2,6 +2,7 @@ import { Link } from '@/i18n/routing';
 import { notFound } from 'next/navigation';
 import { Play, Lock, Globe, Star, CheckCircle, Clock, BookOpen, User } from 'lucide-react';
 import { CoursePreviewPlayer } from '@/components/courses/course-preview-player';
+import { Navbar } from '@/components/common/navbar';
 import { getTranslations } from 'next-intl/server';
 // formatCurrency removed
 
@@ -47,7 +48,8 @@ export default async function CourseDetailPage({ params }: PageProps) {
     if (!course) return notFound();
 
     return (
-        <div className="min-h-screen bg-slate-950 pb-20">
+        <div className="min-h-screen bg-slate-950 pb-24 md:pb-20">
+            <Navbar />
             {/* --- Hero Section --- */}
             <div className="relative bg-slate-900 border-b border-white/5 pt-12 pb-12 lg:pt-20 lg:pb-24">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">

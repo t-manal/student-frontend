@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import { UniversityDetails } from '@/components/universities/university-details';
+import { Navbar } from '@/components/common/navbar';
 
 interface UniversityPageProps {
     params: Promise<{
@@ -31,12 +32,15 @@ export default async function UniversityPage({ params }: UniversityPageProps) {
     }
 
     return (
-        <div className="min-h-screen bg-slate-950 pb-20 pt-12">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <UniversityDetails
-                    universityId={id}
-                    initialUniversity={university}
-                />
+        <div className="min-h-screen bg-slate-950">
+            <Navbar />
+            <div className="pb-24 pt-12 md:pb-20">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <UniversityDetails
+                        universityId={id}
+                        initialUniversity={university}
+                    />
+                </div>
             </div>
         </div>
     );

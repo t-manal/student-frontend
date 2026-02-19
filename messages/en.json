@@ -27,10 +27,6 @@
     "footer": {
         "tagline": "The leading educational platform for students and teachers. Learn with love, be the best.",
         "links_title": "Links",
-        "support_title": "Support",
-        "faq": "FAQ",
-        "privacy": "Privacy Policy",
-        "terms": "Terms & Conditions",
         "rights": "All rights reserved."
     },
     "auth": {
