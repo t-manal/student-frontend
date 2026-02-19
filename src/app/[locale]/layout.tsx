@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { Inter, Outfit } from 'next/font/google';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
@@ -8,9 +7,6 @@ import { AuthProvider } from '@/lib/contexts/auth-context';
 import { QueryProvider } from '@/components/providers/query-provider';
 import { Toaster } from 'react-hot-toast';
 import '@/app/globals.css';
-
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
-const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' });
 
 export const metadata: Metadata = {
     title: 'Manal LMS',
@@ -36,7 +32,7 @@ export default async function LocaleLayout({
     return (
         <html lang={locale} dir={dir} className="h-full" suppressHydrationWarning>
             <body
-                className={`${inter.variable} ${outfit.variable} font-sans antialiased h-full bg-slate-50 text-slate-900`}
+                className="font-sans antialiased h-full bg-slate-50 text-slate-900"
                 suppressHydrationWarning
             >
                 <NextIntlClientProvider messages={messages} locale={locale}>
