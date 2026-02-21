@@ -3,9 +3,9 @@
 import { FormEvent, useState } from 'react';
 import { Navbar } from '@/components/common/navbar';
 import { Footer } from '@/components/common/footer';
-import { Mail, Phone, MapPin, Send } from 'lucide-react';
+import { Mail, Phone, Send } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import { toast } from 'sonner';
+import toast from 'react-hot-toast';
 import { apiClient } from '@/lib/api/client';
 
 const CONTACT_EMAIL = 't.manalalhihi@gmail.com';
@@ -83,15 +83,6 @@ export default function ContactPage() {
                                     <div>
                                         <p className="text-xs font-bold uppercase tracking-wider text-indigo-300">{t('phone_label')}</p>
                                         <p className="font-bold">{CONTACT_PHONE}</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-4">
-                                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-500/50">
-                                        <MapPin className="h-6 w-6" />
-                                    </div>
-                                    <div>
-                                        <p className="text-xs font-bold uppercase tracking-wider text-indigo-300">{t('location_label')}</p>
-                                        <p className="font-bold">{t('location_value')}</p>
                                     </div>
                                 </div>
                             </div>
