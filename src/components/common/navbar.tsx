@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
 
 export function Navbar() {
     const t = useTranslations('common');
@@ -60,9 +61,13 @@ export function Navbar() {
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 items-center justify-between">
                         <div className="flex items-center">
-                            <Link href="/" className="text-2xl font-bold text-white">
-                                {t('brand_p1')}
-                                <span className="text-indigo-400">{t('brand_p2')}</span>
+                            <Link href="/" className="flex items-center">
+                                <Image
+                                    src="/manal-logo.png"
+                                    width={110}
+                                    height={25}
+                                    alt="Manal LMS Logo"
+                                />
                             </Link>
                         </div>
 
