@@ -147,7 +147,11 @@
         "form_email": "البريد الإلكتروني",
         "form_subject": "الموضوع",
         "form_message": "الرسالة",
-        "form_submit": "إرسال الرسالة"
+        "form_submit": "إرسال الرسالة",
+        "form_submit_loading": "جاري الإرسال...",
+        "form_success": "تم إرسال رسالتك بنجاح.",
+        "form_error": "فشل إرسال الرسالة. حاول مرة أخرى.",
+        "form_validation": "يرجى تعبئة جميع الحقول."
     },
     "public": {
         "home": {
@@ -253,7 +257,6 @@
             "verify_required": "يجب التحقق من البريد الإلكتروني لطلب الاشتراك.",
             "verify_now": "تحقق من البريد الآن"
         },
-
         "settings": {
             "title": "الإعدادات",
             "security_title": "الأمان وكلمة المرور",
@@ -266,6 +269,5 @@
             "browser_notifications": "تنبيهات المتصفح",
             "browser_notifications_desc": "عرض تنبيهات فورية عند إضافة محتوى جديد."
         }
-        
     }
 }

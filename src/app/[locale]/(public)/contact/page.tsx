@@ -1,10 +1,59 @@
+'use client';
+
+import { FormEvent, useState } from 'react';
 import { Navbar } from '@/components/common/navbar';
 import { Footer } from '@/components/common/footer';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { toast } from 'sonner';
+import { apiClient } from '@/lib/api/client';
+
+const CONTACT_EMAIL = 't.manalalhihi@gmail.com';
+const CONTACT_PHONE = '+966502609789';
+
+type ContactFormState = {
+    name: string;
+    email: string;
+    subject: string;
+    message: string;
+};
+
+const INITIAL_FORM_STATE: ContactFormState = {
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+};
 
 export default function ContactPage() {
     const t = useTranslations('contact');
+    const [form, setForm] = useState<ContactFormState>(INITIAL_FORM_STATE);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const onChange = (field: keyof ContactFormState, value: string) => {
+        setForm((prev) => ({ ...prev, [field]: value }));
+    };
+
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        if (!form.name.trim() || !form.email.trim() || !form.subject.trim() || !form.message.trim()) {
+            toast.error(t('form_validation'));
+            return;
+        }
+
+        setIsSubmitting(true);
+        try {
+            await apiClient.post('/contact', form);
+            toast.success(t('form_success'));
+            setForm(INITIAL_FORM_STATE);
+        } catch (error: any) {
+            const message = error?.response?.data?.message || t('form_error');
+            toast.error(message);
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
     return (
         <div className="flex min-h-screen flex-col bg-slate-50">
@@ -12,36 +61,36 @@ export default function ContactPage() {
 
             <main className="flex-1 py-24">
                 <div className="container mx-auto px-4">
-                    <div className="max-w-5xl mx-auto shadow-2xl rounded-[40px] bg-white overflow-hidden flex flex-col md:flex-row border border-slate-100">
-                        <div className="md:w-2/5 bg-indigo-600 p-12 text-white">
-                            <h2 className="text-3xl font-extrabold mb-8">{t('title')}</h2>
-                            <p className="text-indigo-100 mb-12">{t('description')}</p>
+                    <div className="mx-auto flex max-w-5xl flex-col overflow-hidden rounded-[40px] border border-slate-100 bg-white shadow-2xl md:flex-row">
+                        <div className="p-12 text-white md:w-2/5 bg-indigo-600">
+                            <h2 className="mb-8 text-3xl font-extrabold">{t('title')}</h2>
+                            <p className="mb-12 text-indigo-100">{t('description')}</p>
 
                             <div className="space-y-8">
                                 <div className="flex items-center gap-4">
-                                    <div className="h-12 w-12 rounded-2xl bg-indigo-500/50 flex items-center justify-center">
+                                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-500/50">
                                         <Mail className="h-6 w-6" />
                                     </div>
                                     <div>
-                                        <p className="text-xs text-indigo-300 font-bold uppercase tracking-wider">{t('email_label')}</p>
-                                        <p className="font-bold">support@manallms.com</p>
+                                        <p className="text-xs font-bold uppercase tracking-wider text-indigo-300">{t('email_label')}</p>
+                                        <p className="font-bold">{CONTACT_EMAIL}</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-4">
-                                    <div className="h-12 w-12 rounded-2xl bg-indigo-500/50 flex items-center justify-center">
+                                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-500/50">
                                         <Phone className="h-6 w-6" />
                                     </div>
                                     <div>
-                                        <p className="text-xs text-indigo-300 font-bold uppercase tracking-wider">{t('phone_label')}</p>
-                                        <p className="font-bold">+962 7XXXXXXXX</p>
+                                        <p className="text-xs font-bold uppercase tracking-wider text-indigo-300">{t('phone_label')}</p>
+                                        <p className="font-bold">{CONTACT_PHONE}</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-4">
-                                    <div className="h-12 w-12 rounded-2xl bg-indigo-500/50 flex items-center justify-center">
+                                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-500/50">
                                         <MapPin className="h-6 w-6" />
                                     </div>
                                     <div>
-                                        <p className="text-xs text-indigo-300 font-bold uppercase tracking-wider">{t('location_label')}</p>
+                                        <p className="text-xs font-bold uppercase tracking-wider text-indigo-300">{t('location_label')}</p>
                                         <p className="font-bold">{t('location_value')}</p>
                                     </div>
                                 </div>
@@ -49,27 +98,56 @@ export default function ContactPage() {
                         </div>
 
                         <div className="flex-1 p-12">
-                            <form className="space-y-6">
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <form className="space-y-6" onSubmit={handleSubmit}>
+                                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                                     <div>
-                                        <label className="text-sm font-bold text-slate-700 block mb-2">{t('form_name')}</label>
-                                        <input type="text" className="w-full rounded-2xl border border-slate-200 bg-slate-50 py-3 px-4 focus:border-indigo-600 focus:outline-none" />
+                                        <label className="mb-2 block text-sm font-bold text-slate-700">{t('form_name')}</label>
+                                        <input
+                                            type="text"
+                                            value={form.name}
+                                            onChange={(e) => onChange('name', e.target.value)}
+                                            required
+                                            className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 focus:border-indigo-600 focus:outline-none"
+                                        />
                                     </div>
                                     <div>
-                                        <label className="text-sm font-bold text-slate-700 block mb-2">{t('form_email')}</label>
-                                        <input type="email" className="w-full rounded-2xl border border-slate-200 bg-slate-50 py-3 px-4 focus:border-indigo-600 focus:outline-none" />
+                                        <label className="mb-2 block text-sm font-bold text-slate-700">{t('form_email')}</label>
+                                        <input
+                                            type="email"
+                                            value={form.email}
+                                            onChange={(e) => onChange('email', e.target.value)}
+                                            required
+                                            className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 focus:border-indigo-600 focus:outline-none"
+                                        />
                                     </div>
                                 </div>
                                 <div>
-                                    <label className="text-sm font-bold text-slate-700 block mb-2">{t('form_subject')}</label>
-                                    <input type="text" className="w-full rounded-2xl border border-slate-200 bg-slate-50 py-3 px-4 focus:border-indigo-600 focus:outline-none" />
+                                    <label className="mb-2 block text-sm font-bold text-slate-700">{t('form_subject')}</label>
+                                    <input
+                                        type="text"
+                                        value={form.subject}
+                                        onChange={(e) => onChange('subject', e.target.value)}
+                                        required
+                                        className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 focus:border-indigo-600 focus:outline-none"
+                                    />
                                 </div>
                                 <div>
-                                    <label className="text-sm font-bold text-slate-700 block mb-2">{t('form_message')}</label>
-                                    <textarea rows={5} className="w-full rounded-2xl border border-slate-200 bg-slate-50 py-3 px-4 focus:border-indigo-600 focus:outline-none"></textarea>
+                                    <label className="mb-2 block text-sm font-bold text-slate-700">{t('form_message')}</label>
+                                    <textarea
+                                        rows={5}
+                                        value={form.message}
+                                        onChange={(e) => onChange('message', e.target.value)}
+                                        required
+                                        className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 focus:border-indigo-600 focus:outline-none"
+                                    />
                                 </div>
-                                <button className="flex items-center justify-center gap-2 w-full rounded-2xl bg-indigo-600 py-4 font-bold text-white shadow-lg shadow-indigo-100 hover:bg-indigo-700">
-                                    <Send className="h-5 w-5" /> {t('form_submit')}
+                                <button
+                                    type="submit"
+                                    disabled={isSubmitting}
+                                    className="flex w-full items-center justify-center gap-2 rounded-2xl bg-indigo-600 py-4 font-bold text-white shadow-lg shadow-indigo-100 transition hover:bg-indigo-700 disabled:cursor-not-allowed disabled:opacity-60"
+                                >
+                                    <Send className="h-5 w-5" />
+                                    {isSubmitting ? t('form_submit_loading') : t('form_submit')}
                                 </button>
                             </form>
                         </div>
