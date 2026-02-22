@@ -170,7 +170,7 @@ export function Navbar() {
                             className="flex items-center gap-2 rounded-xl bg-white/5 px-3 py-3 text-sm font-medium text-slate-200"
                         >
                             <Globe className="h-4 w-4" />
-                            {locale === 'ar' ? 'English' : '???????'}
+                            {locale === 'ar' ? 'English' : 'العربية'}
                         </button>
                         {user ? (
                             <button
