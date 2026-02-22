@@ -11,6 +11,11 @@ import '@/app/globals.css';
 export const metadata: Metadata = {
     title: 'Manal LMS',
     description: 'Premium Educational Platform',
+    icons: {
+        icon: '/Manal Alhihi Logo (1).webp',
+        shortcut: '/Manal Alhihi Logo (1).webp',
+        apple: '/Manal Alhihi Logo (1).webp',
+    },
 };
 
 export default async function LocaleLayout({
