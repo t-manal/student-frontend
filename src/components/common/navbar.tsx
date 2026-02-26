@@ -28,6 +28,16 @@ export function Navbar() {
     const locale = useLocale();
     const router = useRouter();
 
+    const scrollToHero = () => {
+        if (typeof window === 'undefined') return;
+        const heroSection = document.getElementById('hero-section');
+        if (heroSection) {
+            heroSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            return;
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
     const toggleLanguage = () => {
         const nextLocale = locale === 'ar' ? 'en' : 'ar';
         router.replace(pathname, { locale: nextLocale });
@@ -255,8 +265,15 @@ export function Navbar() {
                     })}
 
                     <Link
-                        href="/"
+                        href="/#hero-section"
                         aria-label={t('home')}
+                        onClick={(event) => {
+                            setIsMobileMoreOpen(false);
+                            if (pathname === '/') {
+                                event.preventDefault();
+                                scrollToHero();
+                            }
+                        }}
                         className={cn(
                             'group relative -mt-9 flex h-16 w-16 items-center justify-center self-start justify-self-center rounded-full border border-white/25 bg-linear-to-b from-indigo-500 to-indigo-700 shadow-xl shadow-indigo-900/70 transition-all active:scale-90',
                             pathname === '/' && 'ring-2 ring-indigo-300/40 ring-offset-2 ring-offset-slate-900'

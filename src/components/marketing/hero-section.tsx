@@ -11,7 +11,7 @@ import { useTranslations } from 'next-intl';
 export function HeroSection() {
     const t = useTranslations('public.home');
     return (
-        <section className="relative pt-20 pb-20 lg:pt-32 lg:pb-32 overflow-hidden">
+        <section id="hero-section" className="relative scroll-mt-24 overflow-hidden pt-20 pb-20 lg:pt-32 lg:pb-32">
             <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col items-center text-center max-w-5xl mx-auto">
 
