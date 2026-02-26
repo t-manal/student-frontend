@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useLessonProgress } from '@/lib/api/hooks/use-progress';
 import { DocumentViewer } from './document-viewer';
 import { Loader2, AlertTriangle } from 'lucide-react';
@@ -23,26 +23,25 @@ export function PdfViewer({ lessonId, assetId }: PdfViewerProps) {
     const [metadata, setMetadata] = useState<DocumentMetadata | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const progressReported = useRef(false);
 
+    // Governance Contract: Viewed = Done — fire once per lessonId
     useEffect(() => {
-        // Governance Contract: Viewed = Done
+        if (progressReported.current) return;
+        progressReported.current = true;
         updateProgress({
             lessonId,
             lastPositionSeconds: 0,
             isVideoCompleted: true
         });
+    }, [lessonId]); // eslint-disable-line react-hooks/exhaustive-deps
 
+    // Fetch document metadata
+    useEffect(() => {
         const fetchMetadata = async () => {
             try {
                 setLoading(true);
-                // Phase 10: Metadata Endpoint (Cache Busted)
-                // Phase 10: Metadata Endpoint (Cache Busted & Multi-Asset Key)
                 const response = await apiClient.get<{ data: DocumentMetadata }>(`/lessons/assets/${assetId}/document/metadata?t=${Date.now()}`);
-                // ApiClient response depends on interceptor. 
-                // Usually returns full response object or data?
-                // `client.ts` generic usage ` apiClient.get<{ data: ..., meta: ... }>` return `Promise<AxiosResponse<...>>`
-                // But in `client.ts` there is no response unwrap interceptor shown (only error interceptor).
-                // So it returns AxiosResponse.
                 setMetadata(response.data.data);
             } catch (err) {
                 console.error(err);
@@ -53,7 +52,8 @@ export function PdfViewer({ lessonId, assetId }: PdfViewerProps) {
         };
 
         fetchMetadata();
-    }, [lessonId, assetId, updateProgress]);
+    }, [lessonId, assetId]);
+
 
     if (loading) {
         return (

@@ -24,6 +24,8 @@ export function VideoPlayer({ assetId, lessonId, initialTime = 0 }: VideoPlayerP
     const [isCompleted, setIsCompleted] = useState(false);
     const [isFullscreen, setIsFullscreen] = useState(false);
     const lastSavedTime = useRef(initialTime);
+    const currentTimeRef = useRef(initialTime);
+    const durationRef = useRef(0);
 
     const { mutate: updateProgress } = useLessonProgress();
 
@@ -79,17 +81,21 @@ export function VideoPlayer({ assetId, lessonId, initialTime = 0 }: VideoPlayerP
                     const { currentTime: t, duration: d } = msg.payload || {};
                     if (typeof t === 'number') {
                         setCurrentTime(t);
-                        if (d) setDuration(d);
-                        handleProgress(t, d || duration);
+                        currentTimeRef.current = t;
+                        if (d) {
+                            setDuration(d);
+                            durationRef.current = d;
+                        }
+                        handleProgress(t, d || durationRef.current);
                     }
                 }
 
                 if (msg.type === 'player-ended') {
-                    handleProgress(currentTime, duration, true, true);
+                    handleProgress(currentTimeRef.current, durationRef.current, true, true);
                 }
 
                 if (msg.type === 'player-pause') {
-                    handleProgress(currentTime, duration, true);
+                    handleProgress(currentTimeRef.current, durationRef.current, true);
                 }
 
             } catch {
@@ -99,7 +105,7 @@ export function VideoPlayer({ assetId, lessonId, initialTime = 0 }: VideoPlayerP
 
         window.addEventListener('message', handleMessage);
         return () => window.removeEventListener('message', handleMessage);
-    }, [handleProgress, duration, currentTime]);
+    }, [handleProgress]);
 
     // Listen for fullscreen changes (user may exit via Esc key)
     useEffect(() => {

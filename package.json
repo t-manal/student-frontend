@@ -10,8 +10,6 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
-    "@stripe/react-stripe-js": "^5.4.1",
-    "@stripe/stripe-js": "^8.6.1",
     "@tanstack/react-query": "^5.90.16",
     "@tanstack/react-query-devtools": "^5.91.2",
     "@types/nprogress": "^0.2.3",
@@ -29,7 +27,6 @@
     "react-hook-form": "^7.71.0",
     "react-hot-toast": "^2.6.0",
     "react-pdf": "^10.3.0",
-    "stripe": "^20.1.2",
     "tailwind-merge": "^3.4.0",
     "zod": "^4.3.5"
   },
