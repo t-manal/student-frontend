@@ -159,15 +159,8 @@ export default function LearnPage() {
                                 )}
                             </div>
 
-                            {/* Tabs for Comments/Q&A/Desc */}
                             <div className="bg-slate-900 border-t border-slate-800 p-8 min-h-[400px]">
                                 <div className="max-w-4xl mx-auto">
-                                    <div className="flex border-b border-slate-800 mb-8">
-                                        <button className="px-6 py-4 text-sm font-bold border-b-2 border-indigo-500 text-white">{t('overview')}</button>
-                                        <button className="px-6 py-4 text-sm font-bold text-slate-400 hover:text-white">{t('qa')}</button>
-                                        <button className="px-6 py-4 text-sm font-bold text-slate-400 hover:text-white">{t('attachments')}</button>
-                                    </div>
-
                                     <div>
                                         <h2 className="text-2xl font-bold mb-4">{currentAsset.title}</h2>
                                         <p className="text-slate-400 leading-relaxed">
