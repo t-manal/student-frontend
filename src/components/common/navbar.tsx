@@ -85,18 +85,6 @@ export function Navbar() {
         { href: '/contact', label: t('contact') },
     ];
 
-    const mobilePrimaryLinks = user
-        ? [
-            { href: '/courses', label: t('courses'), icon: BookOpen },
-            { href: '/dashboard', label: t('dashboard'), icon: LayoutDashboard },
-            { href: '/profile', label: t('profile'), icon: User },
-        ]
-        : [
-            { href: '/courses', label: t('courses'), icon: BookOpen },
-            { href: '/login', label: t('login'), icon: LogIn },
-            { href: '/register', label: t('register'), icon: User },
-        ];
-
     return (
         <>
             {/* Desktop Navbar Only */}
@@ -221,66 +209,38 @@ export function Navbar() {
             {isMobileMoreOpen && (
                 <div className="fixed inset-x-3 bottom-[5.7rem] z-50 rounded-[1.6rem] border border-white/10 bg-slate-900/98 p-3 shadow-2xl shadow-black/40 md:hidden">
                     <div className="grid grid-cols-2 gap-2">
-                        <Link
-                            href="/contact"
-                            onClick={() => setIsMobileMoreOpen(false)}
-                            className="flex items-center gap-2 rounded-xl bg-white/5 px-3 py-3 text-sm font-medium text-slate-200"
-                        >
-                            <MessageCircle className="h-4 w-4" />
-                            {t('contact')}
-                        </Link>
-                        <button
-                            onClick={toggleLanguage}
-                            className="flex items-center gap-2 rounded-xl bg-white/5 px-3 py-3 text-sm font-medium text-slate-200"
-                        >
-                            <Languages className="h-4 w-4" />
-                            {locale === 'ar' ? 'English' : 'Arabic'}
-                        </button>
-                        {user ? (
-                            <button
-                                onClick={() => {
-                                    setIsMobileMoreOpen(false);
-                                    logout();
-                                }}
-                                className="flex items-center gap-2 rounded-xl bg-red-500/10 px-3 py-3 text-sm font-medium text-red-300"
+                        <div className="col-span-2 inline-flex items-center rounded-xl border border-white/10 bg-white/5 p-1">
+                            <Link
+                                href="/login"
+                                onClick={() => setIsMobileMoreOpen(false)}
+                                className={cn(
+                                    'flex-1 rounded-lg px-3 py-2.5 text-center text-sm font-semibold transition-all',
+                                    pathname === '/login'
+                                        ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20'
+                                        : 'text-slate-200 hover:bg-white/10'
+                                )}
                             >
-                                <LogOut className="h-4 w-4" />
-                                {t('logout')}
-                            </button>
-                        ) : (
-                            <div className="col-span-2 inline-flex items-center rounded-xl border border-white/10 bg-white/5 p-1">
-                                <Link
-                                    href="/login"
-                                    onClick={() => setIsMobileMoreOpen(false)}
-                                    className={cn(
-                                        'flex-1 rounded-lg px-3 py-2.5 text-center text-sm font-semibold transition-all',
-                                        pathname === '/login'
-                                            ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20'
-                                            : 'text-slate-200 hover:bg-white/10'
-                                    )}
-                                >
-                                    <span className="inline-flex items-center gap-1.5">
-                                        <LogIn className="h-4 w-4" />
-                                        {t('login')}
-                                    </span>
-                                </Link>
-                                <Link
-                                    href="/register"
-                                    onClick={() => setIsMobileMoreOpen(false)}
-                                    className={cn(
-                                        'flex-1 rounded-lg px-3 py-2.5 text-center text-sm font-semibold transition-all',
-                                        pathname === '/register'
-                                            ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20'
-                                            : 'text-slate-200 hover:bg-white/10'
-                                    )}
-                                >
-                                    <span className="inline-flex items-center gap-1.5">
-                                        <UserPlus className="h-4 w-4" />
-                                        {t('register')}
-                                    </span>
-                                </Link>
-                            </div>
-                        )}
+                                <span className="inline-flex items-center gap-1.5">
+                                    <LogIn className="h-4 w-4" />
+                                    {t('login')}
+                                </span>
+                            </Link>
+                            <Link
+                                href="/register"
+                                onClick={() => setIsMobileMoreOpen(false)}
+                                className={cn(
+                                    'flex-1 rounded-lg px-3 py-2.5 text-center text-sm font-semibold transition-all',
+                                    pathname === '/register'
+                                        ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20'
+                                        : 'text-slate-200 hover:bg-white/10'
+                                )}
+                            >
+                                <span className="inline-flex items-center gap-1.5">
+                                    <UserPlus className="h-4 w-4" />
+                                    {t('register')}
+                                </span>
+                            </Link>
+                        </div>
                     </div>
                 </div>
             )}
@@ -288,22 +248,31 @@ export function Navbar() {
             {/* Mobile Bottom Navigation Only */}
             <nav className="fixed inset-x-3 bottom-3 z-50 isolate rounded-[2rem] border border-white/10 bg-slate-900/98 px-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] pt-2 shadow-2xl shadow-black/40 md:hidden">
                 <div className="grid grid-cols-5 gap-1">
-                    {[mobilePrimaryLinks[0], mobilePrimaryLinks[1]].map((item) => {
-                        const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
-                        return (
-                            <Link
-                                key={item.href}
-                                href={item.href}
-                                className={cn(
-                                    'flex flex-col items-center justify-center gap-1 rounded-2xl px-2 py-2 text-[11px] font-medium transition-colors',
-                                    isActive ? 'bg-indigo-500/20 text-indigo-300' : 'text-slate-300 hover:bg-white/5'
-                                )}
-                            >
-                                <item.icon className="h-4 w-4" />
-                                <span className="line-clamp-1">{item.label}</span>
-                            </Link>
-                        );
-                    })}
+                    <Link
+                        href="/courses"
+                        className={cn(
+                            'flex flex-col items-center justify-center gap-1 rounded-2xl px-2 py-2 text-[11px] font-medium transition-colors',
+                            pathname === '/courses' || pathname.startsWith('/courses/')
+                                ? 'bg-indigo-500/20 text-indigo-300'
+                                : 'text-slate-300 hover:bg-white/5'
+                        )}
+                    >
+                        <BookOpen className="h-4 w-4" />
+                        <span className="line-clamp-1">{t('courses')}</span>
+                    </Link>
+
+                    <Link
+                        href="/contact"
+                        className={cn(
+                            'flex flex-col items-center justify-center gap-1 rounded-2xl px-2 py-2 text-[11px] font-medium transition-colors',
+                            pathname === '/contact' || pathname.startsWith('/contact/')
+                                ? 'bg-indigo-500/20 text-indigo-300'
+                                : 'text-slate-300 hover:bg-white/5'
+                        )}
+                    >
+                        <MessageCircle className="h-4 w-4" />
+                        <span className="line-clamp-1">{t('contact')}</span>
+                    </Link>
 
                     <Link
                         href="/#hero-section"
@@ -338,22 +307,13 @@ export function Navbar() {
                         />
                     </Link>
 
-                    {(() => {
-                        const item = mobilePrimaryLinks[2];
-                        const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
-                        return (
-                            <Link
-                                href={item.href}
-                                className={cn(
-                                    'flex flex-col items-center justify-center gap-1 rounded-2xl px-2 py-2 text-[11px] font-medium transition-colors',
-                                    isActive ? 'bg-indigo-500/20 text-indigo-300' : 'text-slate-300 hover:bg-white/5'
-                                )}
-                            >
-                                <item.icon className="h-4 w-4" />
-                                <span className="line-clamp-1">{item.label}</span>
-                            </Link>
-                        );
-                    })()}
+                    <button
+                        onClick={toggleLanguage}
+                        className="flex flex-col items-center justify-center gap-1 rounded-2xl px-2 py-2 text-[11px] font-medium text-slate-300 transition-colors hover:bg-white/5"
+                    >
+                        <Languages className="h-4 w-4" />
+                        <span className="line-clamp-1">{locale === 'ar' ? 'English' : 'Arabic'}</span>
+                    </button>
 
                     <button
                         onClick={() => setIsMobileMoreOpen((prev) => !prev)}
