@@ -12,7 +12,14 @@ export default function ResetPasswordPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const locale = useLocale();
-  const token = searchParams.get('token');
+  const rawToken = searchParams.get('token') || '';
+  const token = (() => {
+    try {
+      return decodeURIComponent(rawToken).trim();
+    } catch {
+      return rawToken.trim();
+    }
+  })();
 
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
