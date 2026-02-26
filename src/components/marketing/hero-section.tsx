@@ -51,7 +51,7 @@ export function HeroSection() {
                         className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto mb-16"
                     >
                         <Link
-                            href="/courses"
+                            href="/contact"
                             className="w-full sm:w-auto px-8 py-5 rounded-2xl bg-indigo-600 text-white font-bold text-lg hover:bg-indigo-500 transition-all hover:scale-105 active:scale-95 shadow-xl shadow-indigo-600/20 flex items-center justify-center gap-3"
                         >
                             <Sparkles className="w-5 h-5" />

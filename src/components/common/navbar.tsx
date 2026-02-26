@@ -6,6 +6,7 @@ import { useTranslations, useLocale } from 'next-intl';
 import {
     Languages,
     User,
+    UserPlus,
     LogOut,
     LayoutDashboard,
     BookOpen,
@@ -133,14 +134,29 @@ export function Navbar() {
                                     </div>
                                 </div>
                             ) : (
-                                <div className="flex items-center gap-3">
-                                    <Link href="/login" className="text-sm font-medium text-slate-300 hover:text-indigo-400">
+                                <div className="inline-flex items-center rounded-full border border-white/10 bg-white/5 p-1">
+                                    <Link
+                                        href="/login"
+                                        className={cn(
+                                            'inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-all',
+                                            pathname === '/login'
+                                                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20'
+                                                : 'text-slate-300 hover:bg-white/5 hover:text-indigo-300'
+                                        )}
+                                    >
+                                        <LogIn className="h-4 w-4" />
                                         {t('login')}
                                     </Link>
                                     <Link
                                         href="/register"
-                                        className="rounded-full bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-lg shadow-indigo-500/20 transition-all hover:bg-indigo-500 hover:shadow-indigo-500/30"
+                                        className={cn(
+                                            'inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition-all',
+                                            pathname === '/register'
+                                                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20'
+                                                : 'text-slate-300 hover:bg-white/5 hover:text-indigo-300'
+                                        )}
                                     >
+                                        <UserPlus className="h-4 w-4" />
                                         {t('register')}
                                     </Link>
                                 </div>
@@ -181,14 +197,38 @@ export function Navbar() {
                                 {t('logout')}
                             </button>
                         ) : (
-                            <Link
-                                href="/login"
-                                onClick={() => setIsMobileMoreOpen(false)}
-                                className="flex items-center gap-2 rounded-xl bg-white/5 px-3 py-3 text-sm font-medium text-slate-200"
-                            >
-                                <LogIn className="h-4 w-4" />
-                                {t('login')}
-                            </Link>
+                            <div className="col-span-2 inline-flex items-center rounded-xl border border-white/10 bg-white/5 p-1">
+                                <Link
+                                    href="/login"
+                                    onClick={() => setIsMobileMoreOpen(false)}
+                                    className={cn(
+                                        'flex-1 rounded-lg px-3 py-2.5 text-center text-sm font-semibold transition-all',
+                                        pathname === '/login'
+                                            ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20'
+                                            : 'text-slate-200 hover:bg-white/10'
+                                    )}
+                                >
+                                    <span className="inline-flex items-center gap-1.5">
+                                        <LogIn className="h-4 w-4" />
+                                        {t('login')}
+                                    </span>
+                                </Link>
+                                <Link
+                                    href="/register"
+                                    onClick={() => setIsMobileMoreOpen(false)}
+                                    className={cn(
+                                        'flex-1 rounded-lg px-3 py-2.5 text-center text-sm font-semibold transition-all',
+                                        pathname === '/register'
+                                            ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/20'
+                                            : 'text-slate-200 hover:bg-white/10'
+                                    )}
+                                >
+                                    <span className="inline-flex items-center gap-1.5">
+                                        <UserPlus className="h-4 w-4" />
+                                        {t('register')}
+                                    </span>
+                                </Link>
+                            </div>
                         )}
                     </div>
                 </div>

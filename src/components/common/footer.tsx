@@ -44,13 +44,7 @@ export function Footer() {
                 <div className="mt-12 border-t border-white/5 pt-8 text-center text-sm text-slate-400">
                     <p className="inline-flex flex-wrap items-center justify-center gap-2">
                         <span>(c) {year}</span>
-                        <Image
-                            src="/manal-logo.png"
-                            width={84}
-                            height={20}
-                            alt="Manal Logo"
-                            className="h-5 w-auto"
-                        />
+                        <span className="font-semibold tracking-wide text-slate-300">T.MANAL LMS</span>
                         <span>{t('rights')}</span>
                     </p>
                 </div>
