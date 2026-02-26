@@ -31,7 +31,9 @@ export function DocumentViewer({ lessonId, assetId, pageCount: initialPageCount,
     const [error, setError] = useState<string | null>(null);
     const [scale, setScale] = useState(1.0);
     const [isFullscreen, setIsFullscreen] = useState(false);
+    const [cssFullscreenFallback, setCssFullscreenFallback] = useState(false);
     const [documentUrl, setDocumentUrl] = useState<string | null>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
     const objectUrlRef = useRef<string | null>(null);
 
     function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
@@ -99,8 +101,47 @@ export function DocumentViewer({ lessonId, assetId, pageCount: initialPageCount,
         };
     }, [assetId, initialPageCount]);
 
-    const toggleFullscreen = () => {
-        setIsFullscreen(!isFullscreen);
+    useEffect(() => {
+        const handleFullscreenChange = () => {
+            const element = document.fullscreenElement;
+            if (!element) {
+                setIsFullscreen(false);
+                return;
+            }
+            setIsFullscreen(element === containerRef.current);
+        };
+
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    }, []);
+
+    const toggleFullscreen = async () => {
+        if (!containerRef.current) return;
+
+        if (cssFullscreenFallback) {
+            setCssFullscreenFallback(false);
+            setIsFullscreen(false);
+            return;
+        }
+
+        try {
+            if (!document.fullscreenElement) {
+                await containerRef.current.requestFullscreen();
+                setIsFullscreen(true);
+            } else if (document.fullscreenElement === containerRef.current) {
+                await document.exitFullscreen();
+                setIsFullscreen(false);
+            } else {
+                await document.exitFullscreen();
+                await containerRef.current.requestFullscreen();
+                setIsFullscreen(true);
+            }
+        } catch (err) {
+            console.error('Fullscreen error:', err);
+            // Fallback for environments where Fullscreen API is blocked
+            setCssFullscreenFallback((prev) => !prev);
+            setIsFullscreen((prev) => !prev);
+        }
     };
 
     const zoomIn = () => setScale(prev => Math.min(prev + 0.25, 3.0));
@@ -174,7 +215,8 @@ export function DocumentViewer({ lessonId, assetId, pageCount: initialPageCount,
 
     return (
         <div id="doc-viewer-container" 
-             className={`relative bg-slate-900 flex flex-col items-center justify-start select-none ${className} ${isFullscreen ? 'fixed inset-0 z-50 w-full h-full' : 'min-h-[500px]'}`}
+             ref={containerRef}
+             className={`relative bg-slate-900 flex flex-col items-center justify-start select-none ${className} ${(isFullscreen || cssFullscreenFallback) ? 'fixed inset-0 z-50 w-full h-full' : 'min-h-[500px]'}`}
              dir="ltr"> {/* Enforce LTR for Viewer internal layout to prevent RTL scroll bugs */}
              
              {/* Security Styles - Prevent printing */}
