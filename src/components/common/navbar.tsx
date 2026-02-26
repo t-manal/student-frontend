@@ -115,6 +115,7 @@ export function Navbar() {
                                     width={110}
                                     height={25}
                                     alt="Manal LMS Logo"
+                                    sizes="140px"
                                 />
                             </Link>
                         </div>

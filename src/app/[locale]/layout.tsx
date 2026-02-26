@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     keywords: ['T.MANAL LMS', 'T.MANAL ALHIHI', 'INKSPIRE', 'T.MANL ALHIHI', 'Educational Platform', 'Online Learning', 'LMS'],
     manifest: '/manifest.webmanifest',
     alternates: {
-        canonical: '/',
+        canonical: 'https://www.manalalhihi.com',
     },
     robots: {
         index: true,

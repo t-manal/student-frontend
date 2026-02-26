@@ -19,6 +19,7 @@ export function Footer() {
                                 height={32}
                                 alt="Manal Logo"
                                 className="h-8 w-auto"
+                                sizes="140px"
                             />
                         </Link>
                         <p className="mt-4 max-w-xs text-slate-300">

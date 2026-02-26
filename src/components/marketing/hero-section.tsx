@@ -95,6 +95,7 @@ export function HeroSection() {
                                 height={900}
                                 className="object-cover w-full h-full pt-10 opacity-80 group-hover:opacity-100 duration-700 group-hover:scale-105 transition-all"
                                 priority
+                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
                             />
 
                             {/* Overlay Gradient */}
