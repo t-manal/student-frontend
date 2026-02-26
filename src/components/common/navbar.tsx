@@ -4,11 +4,10 @@ import { Link, usePathname, useRouter } from '@/i18n/routing';
 import { useAuth } from '@/lib/contexts/auth-context';
 import { useTranslations, useLocale } from 'next-intl';
 import {
-    Globe,
+    Languages,
     User,
     LogOut,
     LayoutDashboard,
-    Home,
     BookOpen,
     LogIn,
     MessageCircle,
@@ -42,13 +41,11 @@ export function Navbar() {
 
     const mobilePrimaryLinks = user
         ? [
-            { href: '/', label: t('home'), icon: Home },
             { href: '/courses', label: t('courses'), icon: BookOpen },
             { href: '/dashboard', label: t('dashboard'), icon: LayoutDashboard },
             { href: '/profile', label: t('profile'), icon: User },
         ]
         : [
-            { href: '/', label: t('home'), icon: Home },
             { href: '/courses', label: t('courses'), icon: BookOpen },
             { href: '/login', label: t('login'), icon: LogIn },
             { href: '/register', label: t('register'), icon: User },
@@ -89,9 +86,9 @@ export function Navbar() {
                         <div className="flex items-center gap-4">
                             <button
                                 onClick={toggleLanguage}
-                                className="rounded-full p-2 text-slate-300 hover:bg-white/10 hover:text-indigo-400"
+                                className="rounded-xl px-3 py-2 text-slate-300 transition-all hover:bg-white/10 hover:text-indigo-400"
                             >
-                                <Globe className="h-5 w-5" />
+                                <Languages className="h-5 w-5" />
                             </button>
 
                             {user ? (
@@ -155,7 +152,7 @@ export function Navbar() {
 
             {/* Mobile More Sheet */}
             {isMobileMoreOpen && (
-                <div className="fixed inset-x-0 bottom-20 z-50 border-t border-white/10 bg-slate-900/95 p-4 backdrop-blur-md md:hidden">
+                <div className="fixed inset-x-3 bottom-[5.7rem] z-50 rounded-[1.6rem] border border-white/10 bg-slate-900/98 p-3 shadow-2xl shadow-black/40 md:hidden">
                     <div className="grid grid-cols-2 gap-2">
                         <Link
                             href="/contact"
@@ -169,8 +166,8 @@ export function Navbar() {
                             onClick={toggleLanguage}
                             className="flex items-center gap-2 rounded-xl bg-white/5 px-3 py-3 text-sm font-medium text-slate-200"
                         >
-                            <Globe className="h-4 w-4" />
-                            {locale === 'ar' ? 'English' : 'العربية'}
+                            <Languages className="h-4 w-4" />
+                            {locale === 'ar' ? 'English' : 'Arabic'}
                         </button>
                         {user ? (
                             <button
@@ -198,16 +195,16 @@ export function Navbar() {
             )}
 
             {/* Mobile Bottom Navigation Only */}
-            <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-slate-900/95 px-2 py-2 backdrop-blur-md md:hidden">
+            <nav className="fixed inset-x-3 bottom-3 z-50 isolate rounded-[2rem] border border-white/10 bg-slate-900/98 px-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] pt-2 shadow-2xl shadow-black/40 md:hidden">
                 <div className="grid grid-cols-5 gap-1">
-                    {mobilePrimaryLinks.map((item) => {
+                    {[mobilePrimaryLinks[0], mobilePrimaryLinks[1]].map((item) => {
                         const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
                         return (
                             <Link
                                 key={item.href}
                                 href={item.href}
                                 className={cn(
-                                    'flex flex-col items-center justify-center gap-1 rounded-xl px-2 py-2 text-[11px] font-medium transition-colors',
+                                    'flex flex-col items-center justify-center gap-1 rounded-2xl px-2 py-2 text-[11px] font-medium transition-colors',
                                     isActive ? 'bg-indigo-500/20 text-indigo-300' : 'text-slate-300 hover:bg-white/5'
                                 )}
                             >
@@ -216,15 +213,51 @@ export function Navbar() {
                             </Link>
                         );
                     })}
+
+                    <Link
+                        href="/"
+                        aria-label={t('home')}
+                        className={cn(
+                            'group relative -mt-9 flex h-16 w-16 items-center justify-center self-start justify-self-center rounded-full border border-white/25 bg-linear-to-b from-indigo-500 to-indigo-700 shadow-xl shadow-indigo-900/70 transition-all active:scale-90',
+                            pathname === '/' && 'ring-2 ring-indigo-300/40 ring-offset-2 ring-offset-slate-900'
+                        )}
+                    >
+                        <Image
+                            src="/favicon.webp"
+                            alt="Manal"
+                            width={30}
+                            height={30}
+                            className="rounded-full object-cover"
+                        />
+                        <span className="pointer-events-none absolute inset-0 rounded-full border border-indigo-200/40 transition-all duration-150 group-active:scale-110 group-active:opacity-0" />
+                    </Link>
+
+                    {(() => {
+                        const item = mobilePrimaryLinks[2];
+                        const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`);
+                        return (
+                            <Link
+                                href={item.href}
+                                className={cn(
+                                    'flex flex-col items-center justify-center gap-1 rounded-2xl px-2 py-2 text-[11px] font-medium transition-colors',
+                                    isActive ? 'bg-indigo-500/20 text-indigo-300' : 'text-slate-300 hover:bg-white/5'
+                                )}
+                            >
+                                <item.icon className="h-4 w-4" />
+                                <span className="line-clamp-1">{item.label}</span>
+                            </Link>
+                        );
+                    })()}
+
                     <button
                         onClick={() => setIsMobileMoreOpen((prev) => !prev)}
                         className={cn(
-                            'flex flex-col items-center justify-center gap-1 rounded-xl px-2 py-2 text-[11px] font-medium transition-colors',
+                            'flex flex-col items-center justify-center gap-1 rounded-2xl px-2 py-2 text-[11px] font-medium transition-colors',
                             isMobileMoreOpen ? 'bg-indigo-500/20 text-indigo-300' : 'text-slate-300 hover:bg-white/5'
                         )}
                     >
                         {isMobileMoreOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-                        <span>{locale === 'ar' ? 'المزيد' : 'More'}</span>
+                        <span>More</span>
                     </button>
                 </div>
             </nav>

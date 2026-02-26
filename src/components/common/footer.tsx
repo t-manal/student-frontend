@@ -1,5 +1,6 @@
 import { Link } from '@/i18n/routing';
 import { useTranslations } from 'next-intl';
+import Image from 'next/image';
 
 export function Footer() {
     const t = useTranslations('footer');
@@ -11,8 +12,14 @@ export function Footer() {
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 gap-12 md:grid-cols-3">
                     <div className="col-span-1 md:col-span-2">
-                        <Link href="/" className="text-2xl font-bold text-white">
-                            {tc('brand_p1')}<span className="text-indigo-400">{tc('brand_p2')}</span>
+                        <Link href="/" className="inline-flex items-center">
+                            <Image
+                                src="/manal-logo.png"
+                                width={140}
+                                height={32}
+                                alt="Manal Logo"
+                                className="h-8 w-auto"
+                            />
                         </Link>
                         <p className="mt-4 max-w-xs text-slate-300">
                             {t('tagline')}
@@ -35,7 +42,17 @@ export function Footer() {
                     </div>
                 </div>
                 <div className="mt-12 border-t border-white/5 pt-8 text-center text-sm text-slate-400">
-                    <p>(c) {year} {process.env.NEXT_PUBLIC_APP_NAME || 'Manal LMS'}. {t('rights')}</p>
+                    <p className="inline-flex flex-wrap items-center justify-center gap-2">
+                        <span>(c) {year}</span>
+                        <Image
+                            src="/manal-logo.png"
+                            width={84}
+                            height={20}
+                            alt="Manal Logo"
+                            className="h-5 w-auto"
+                        />
+                        <span>{t('rights')}</span>
+                    </p>
                 </div>
             </div>
         </footer>
