@@ -121,7 +121,7 @@ export function HeroSection() {
                                     <div className="w-3 h-3 rounded-full bg-green-500/20 border border-green-500/50"></div>
                                 </div>
                                 <div className="mx-auto px-4 py-1 rounded-full bg-white/5 text-[10px] text-slate-500 font-mono tracking-widest hidden sm:block">
-                                    dr.manal.net
+                                    www.manalalhihi.com
                                 </div>
                             </div>
 
@@ -138,6 +138,7 @@ export function HeroSection() {
                             {/* Overlay Gradient */}
                             <div className="absolute inset-0 bg-linear-to-t from-slate-900 via-transparent to-transparent z-0"></div>
                         </div>
+
 
                         {/* Floating Tech Icons (Decorative) */}
                         <motion.div
