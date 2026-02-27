@@ -5,7 +5,6 @@ import Image from 'next/image';
 export function Footer() {
     const t = useTranslations('footer');
     const tc = useTranslations('common');
-    const year = new Date().getFullYear();
 
     return (
         <footer className="border-t border-white/5 bg-slate-950 py-12 relative z-10">
@@ -42,11 +41,13 @@ export function Footer() {
                         </ul>
                     </div>
                 </div>
-                <div className="mt-12 border-t border-white/5 pt-8 text-center text-sm text-slate-400">
-                    <p className="inline-flex flex-wrap items-center justify-center gap-2">
-                        <span>(c) {year}</span>
-                        <span className="font-semibold tracking-wide text-slate-300">T.MANAL LMS</span>
-                        <span>{t('rights')}</span>
+                <div className="mt-12 border-t border-white/5 pt-8 text-center">
+                    <p className="text-sm font-semibold uppercase tracking-[0.12em] text-slate-300">
+                        &copy; 2026 T.MANAL LMS. All rights reserved.
+                    </p>
+                    <p className="mt-2 text-xs uppercase tracking-[0.2em] text-slate-500">
+                        Platform developed and engineered by{' '}
+                        <span className="font-semibold text-slate-300">Inkspire</span>
                     </p>
                 </div>
             </div>
