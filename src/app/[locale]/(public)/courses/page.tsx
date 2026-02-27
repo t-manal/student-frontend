@@ -70,7 +70,8 @@ export default async function CoursesPage({ searchParams }: CoursesPageProps) {
                         <div className="flex flex-wrap gap-2">
                             <Link
                                 href="/courses"
-                                className={`rounded-full border px-4 py-2 text-sm font-bold transition-colors ${!universityId
+                                prefetch={false}
+                                className={`rounded-full border px-4 py-2 text-sm font-bold transition-all focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 ${!universityId
                                     ? 'border-indigo-600 bg-indigo-600 text-white'
                                     : 'border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100'
                                     }`}
@@ -81,7 +82,8 @@ export default async function CoursesPage({ searchParams }: CoursesPageProps) {
                                 <Link
                                     key={uni.id}
                                     href={`/courses?universityId=${uni.id}`}
-                                    className={`rounded-full border px-4 py-2 text-sm font-bold transition-colors ${universityId === uni.id
+                                    prefetch={false}
+                                    className={`rounded-full border px-4 py-2 text-sm font-bold transition-all focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 ${universityId === uni.id
                                         ? 'border-indigo-600 bg-indigo-600 text-white'
                                         : 'border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100'
                                         }`}
@@ -100,11 +102,16 @@ export default async function CoursesPage({ searchParams }: CoursesPageProps) {
                                 ))}
                             </div>
                         ) : (
-                            <div className="flex h-96 flex-col items-center justify-center rounded-3xl border-2 border-dashed border-slate-200 bg-white">
+                            <div className="flex flex-col items-center justify-center py-16 px-4 text-center rounded-3xl border border-slate-200 bg-white shadow-sm">
                                 <Search className="mb-4 h-12 w-12 text-slate-300" />
-                                <p className="text-lg font-bold text-slate-500">{t('no_results_title')}</p>
-                                <Link href="/courses" className="mt-4 text-indigo-600 font-bold hover:underline">
-                                    {t('reset_filter')}
+                                <h3 className="text-xl font-bold text-slate-900 mb-2">No courses available yet</h3>
+                                <p className="text-slate-500 mb-6 max-w-sm">Please try another filter.</p>
+                                <Link 
+                                    href="/courses" 
+                                    className="inline-flex items-center justify-center rounded-full bg-indigo-600 px-6 py-2.5 text-sm font-bold text-white transition-all hover:bg-indigo-500 hover:scale-105 active:scale-95 focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
+                                    prefetch={false}
+                                >
+                                    Clear filters
                                 </Link>
                             </div>
                         )}

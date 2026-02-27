@@ -61,13 +61,14 @@ export function UniversitiesGrid() {
                         href={`/universities/${university.id}`}
                         className="group relative grid h-[248px] grid-rows-[auto_1fr_auto] items-center justify-items-center rounded-4xl border border-white/10 bg-white/5 p-5 text-center transition-all hover:-translate-y-2 hover:bg-white/10 hover:shadow-2xl hover:shadow-indigo-500/20 sm:h-[264px] sm:p-6"
                     >
-                        <div className="relative mb-4 flex h-28 w-28 items-center justify-center rounded-3xl bg-white/95 p-3 shadow-lg transition-transform duration-300 group-hover:scale-105 sm:mb-5 sm:h-32 sm:w-32">
+                        <div className="relative aspect-square mb-4 flex h-28 w-28 items-center justify-center rounded-3xl bg-white/95 p-3 shadow-lg transition-transform duration-300 group-hover:scale-105 sm:mb-5 sm:h-32 sm:w-32">
                             {(university.logoUrl || university.logo) ? (
                                 <Image
                                     src={university.logoUrl || university.logo || ''}
                                     alt={university.name}
                                     width={120}
                                     height={120}
+                                    sizes="120px"
                                     className="h-full w-full object-contain"
                                 />
                             ) : (

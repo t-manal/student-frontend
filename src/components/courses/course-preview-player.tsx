@@ -39,7 +39,7 @@ export function CoursePreviewPlayer({ title, trailerId }: CoursePreviewPlayerPro
             {/* Title Placeholder - No Images */}
             <div className="absolute inset-0 flex items-center justify-center">
                 <h3 className="text-white font-bold text-xl text-center px-6 line-clamp-2 drop-shadow-md">
-                    {title}
+                    {(title && title !== 'TITLE') ? title : 'Untitled course'}
                 </h3>
             </div>
 
