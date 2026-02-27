@@ -41,16 +41,20 @@ export function Navbar() {
     const { user, logout } = useAuth();
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
     const [isMobileMoreOpen, setIsMobileMoreOpen] = useState(false);
-    const [prefersReducedMotion, setPrefersReducedMotion] = useState(detectReducedMotion);
+    const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+    const [mounted, setMounted] = useState(false);
+    const [isSafari, setIsSafari] = useState(false);
     const pathname = usePathname();
     const locale = useLocale();
     const router = useRouter();
     const { resolvedTheme, setTheme } = useTheme();
-    const isSafari = detectSafari();
 
     useEffect(() => {
+        setMounted(true);
+        setIsSafari(detectSafari());
         const motionMedia = window.matchMedia(REDUCED_MOTION_QUERY);
         const updateMotionPreference = (event: MediaQueryListEvent | MediaQueryList) => setPrefersReducedMotion(event.matches);
+        setPrefersReducedMotion(motionMedia.matches);
 
         if (typeof motionMedia.addEventListener === 'function') {
             motionMedia.addEventListener('change', updateMotionPreference);
@@ -88,6 +92,8 @@ export function Navbar() {
         const nextTheme = resolvedTheme === 'dark' ? 'light' : 'dark';
         setTheme(nextTheme);
     };
+
+    const isDarkTheme = !mounted || resolvedTheme === 'dark';
 
     const desktopNavLinks = [
         { href: '/', label: t('home') },
@@ -331,10 +337,10 @@ export function Navbar() {
 
                     <button
                         onClick={toggleTheme}
-                        aria-label={resolvedTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                        aria-label={isDarkTheme ? 'Switch to light mode' : 'Switch to dark mode'}
                         className="flex flex-col items-center justify-center gap-1 rounded-2xl px-2 py-2 text-[11px] font-medium text-slate-600 dark:text-slate-300 transition-colors hover:bg-slate-100 dark:hover:bg-white/5"
                     >
-                        {resolvedTheme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                        {isDarkTheme ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
                         <span className="line-clamp-1">{locale === 'ar' ? 'الوضع' : 'Mode'}</span>
                     </button>
 
