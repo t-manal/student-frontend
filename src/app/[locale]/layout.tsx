@@ -8,6 +8,8 @@ import { QueryProvider } from '@/components/providers/query-provider';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { Toaster } from 'react-hot-toast';
 import { PwaRegister } from '@/components/common/pwa-register';
+import { Preloader } from '@/components/common/preloader';
+import { RouteLoader } from '@/components/common/route-loader';
 import '@/app/globals.css';
 
 const metadataBaseConfig: Metadata = {
@@ -129,6 +131,8 @@ export default async function LocaleLayout({
                     <NextIntlClientProvider messages={messages} locale={locale}>
                         <QueryProvider>
                             <AuthProvider>
+                                <Preloader />
+                                <RouteLoader />
                                 {children}
                                 <Toaster position="top-center" />
                                 <PwaRegister />
