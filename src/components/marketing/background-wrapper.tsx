@@ -35,7 +35,10 @@ export function BackgroundWrapper() {
         ? 'bg-slate-950'
         : 'bg-white';
 
-    useEffect(() => setMounted(true), []);
+    useEffect(() => {
+        const timeoutId = setTimeout(() => setMounted(true), 0);
+        return () => clearTimeout(timeoutId);
+    }, []);
 
     useEffect(() => {
         const motionMedia = window.matchMedia(REDUCED_MOTION_QUERY);

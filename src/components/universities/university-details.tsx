@@ -24,7 +24,8 @@ export function UniversityDetails({ universityId, initialUniversity }: Universit
     const isDark = !mounted || resolvedTheme === 'dark';
 
     useEffect(() => {
-        setMounted(true);
+        const timeoutId = setTimeout(() => setMounted(true), 0);
+        return () => clearTimeout(timeoutId);
     }, []);
     
     // Fetch Courses directly for university (public endpoint)

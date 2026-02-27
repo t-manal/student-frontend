@@ -76,7 +76,7 @@ export function UniversitiesGrid() {
                             )}
                         </div>
 
-                        <h3 className="mb-3 line-clamp-2 min-h-[3.5rem] text-base font-bold leading-7 text-slate-900 dark:text-white transition-colors group-hover:text-indigo-600 dark:group-hover:text-amber-400 sm:text-lg">
+                        <h3 className="mb-3 line-clamp-2 min-h-14 text-base font-bold leading-7 text-slate-900 dark:text-white transition-colors group-hover:text-indigo-600 dark:group-hover:text-amber-400 sm:text-lg">
                             {university.name}
                         </h3>
 

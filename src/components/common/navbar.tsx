@@ -50,11 +50,14 @@ export function Navbar() {
     const { resolvedTheme, setTheme } = useTheme();
 
     useEffect(() => {
-        setMounted(true);
-        setIsSafari(detectSafari());
         const motionMedia = window.matchMedia(REDUCED_MOTION_QUERY);
         const updateMotionPreference = (event: MediaQueryListEvent | MediaQueryList) => setPrefersReducedMotion(event.matches);
-        setPrefersReducedMotion(motionMedia.matches);
+
+        const timeoutId = setTimeout(() => {
+            setMounted(true);
+            setIsSafari(detectSafari());
+            setPrefersReducedMotion(motionMedia.matches);
+        }, 0);
 
         if (typeof motionMedia.addEventListener === 'function') {
             motionMedia.addEventListener('change', updateMotionPreference);
@@ -274,7 +277,7 @@ export function Navbar() {
             )}
 
             {/* Mobile Bottom Navigation Only */}
-            <nav className="fixed inset-x-3 bottom-3 z-50 isolate rounded-[2rem] border border-slate-200 dark:border-white/10 bg-white/98 dark:bg-slate-900/95 px-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] pt-2 shadow-2xl shadow-black/40 md:hidden">
+            <nav className="fixed inset-x-3 bottom-3 z-50 isolate rounded-4xl border border-slate-200 dark:border-white/10 bg-white/98 dark:bg-slate-900/95 px-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] pt-2 shadow-2xl shadow-black/40 md:hidden">
                 <div className="grid grid-cols-5 gap-1">
                     <Link
                         href="/courses"
