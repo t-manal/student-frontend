@@ -213,6 +213,7 @@ export default function LearnPage() {
                                                             <Link
                                                                 key={asset.id}
                                                                 href={`/learn/${courseId}?assetId=${asset.id}`}
+                                                                onClick={() => setSidebarOpen(false)}
                                                                 className={cn(
                                                                     "flex items-center gap-3 px-8 py-3 transition-colors hover:bg-slate-800",
                                                                     isActive && "bg-indigo-600 font-bold text-white",
